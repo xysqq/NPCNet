@@ -1,10 +1,12 @@
+from collections import OrderedDict
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Module, Conv2d, Parameter, Softmax
-from models.RendPoint import sampling_points_v2, sampling_features
-from collections import OrderedDict
 from torchvision import models
+
+from models.RendPoint import sampling_points_v2, sampling_features
 
 __all__ = ["NPCNet"]
 
@@ -367,17 +369,20 @@ class BaseNet(nn.Module):
             self.backbone = models.resnet50(pretrained=False, replace_stride_with_dilation=[0, 1, 1],
                                             norm_layer=norm_layer)
             if pretrained:
-                self.backbone.load_state_dict(torch.load("./resnet50-19c8e357.pth", map_location='cpu'))
+                self.backbone.load_state_dict(
+                    torch.load("./pretrained_model/resnet50-19c8e357.pth", map_location='cpu'))
         elif backbone == 'resnet101':
             self.backbone = models.resnet101(pretrained=False, replace_stride_with_dilation=[0, 1, 1],
                                              norm_layer=norm_layer)
             if pretrained:
-                self.backbone.load_state_dict(torch.load("./resnet101-5d3b4d8f.pth", map_location='cpu'))
+                self.backbone.load_state_dict(
+                    torch.load("./pretrained_model/resnet101-5d3b4d8f.pth", map_location='cpu'))
         elif backbone == 'resnet152':
             self.backbone = models.resnet152(pretrained=False, replace_stride_with_dilation=[0, 1, 1],
                                              norm_layer=norm_layer)
             if pretrained:
-                self.backbone.load_state_dict(torch.load("./resnet152-b121ed2d.pth", map_location='cpu'))
+                self.backbone.load_state_dict(
+                    torch.load("./pretrained_model/resnet152-b121ed2d.pth", map_location='cpu'))
         else:
             raise RuntimeError('unknown backbone: {}'.format(backbone))
 
